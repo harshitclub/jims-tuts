@@ -4,24 +4,26 @@ void main() async {
   print("Application Started...");
   print("Fetching User Data...");
   // Map user = await userData();
-  await userData()
-      .then((user) {
-        user.forEach((userKey, userValue) {
-          if (userKey == "social" && userValue is Map) {
-            print("Social Information");
-            userValue.forEach((socialKey, socialValue) {
-              print("    $socialKey: $socialValue");
-            });
-          } else {
-            print("$userKey: $userValue");
-          }
-        });
-      })
-      .catchError((err) {
-        print(err);
+  try {
+    await userData().then((user) {
+      user.forEach((userKey, userValue) {
+        if (userKey == "social" && userValue is Map) {
+          print("Social Information");
+          userValue.forEach((socialKey, socialValue) {
+            print("    $socialKey: $socialValue");
+          });
+        } else {
+          print("$userKey: $userValue");
+        }
       });
-
-  print("All Ok...!");
+    });
+    print("All Ok!");
+  } catch (e) {
+    print(e);
+    print("Not ok!");
+  } finally {
+    print("Application Ends...");
+  }
 }
 
 Future<Map> userData() async {
